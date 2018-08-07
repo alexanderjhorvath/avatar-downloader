@@ -16,11 +16,12 @@ function getRepoContributors(repoOwner, repoName, cb) {
   request(options, function(err, res, body) {
     cb(err, body);
     var json = JSON.parse(body);
-    var avatarURL = [];
     for (var i in json) {
-      avatarURL.push(json[i].avatar_url);
+      var filePath = "avatars/" + json[i].login + ".jpg";
+      // avatarURL.push(json[i].avatar_url);
+      var avatarURL = json[i].avatar_url;
+      downloadImageByURL(avatarURL, filePath);
     }
-    cb(err, avatarURL);
   });
 }
 
@@ -30,7 +31,7 @@ function downloadImageByURL(url, filePath) {
       throw err;
     })
     .on('response', function (response) {
-      console.log('Response Status Code: ', response.statusCode, '\nContent Type: ', response.headers['content-type'], '\nDownloading image...');
+      console.log('Downloading image ' + filePath);
     })
     .pipe(fs.createWriteStream(filePath))
 }
@@ -39,5 +40,5 @@ function downloadImageByURL(url, filePath) {
 
 getRepoContributors("jquery", "jquery", function(err, result) {
   console.log("Errors: ", err);
-  console.log("Result: ", result);
+  // console.log("Result: ", result);
 });
