@@ -2,8 +2,16 @@ var request = require('request');
 var secret = require('./secrets.js');
 var fs = require('fs');
 
+if (process.argv[2] === undefined) {
+  console.log("Please include the respoitory's owner");
+  return;
+} else if (process.argv[3] === undefined) {
+  console.log("Please include the repository's name");
+  return;
+} else {
 var inputOwner = process.argv[2];
 var inputName = process.argv[3];
+};
 
 console.log("Welcome to the GitHub Avatar Downloader!");
 
